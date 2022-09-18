@@ -21,7 +21,17 @@ classifiers = [
     "Typing :: Typed",
 ]
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "Sphinx>=5",
+    "pydata-sphinx-theme>=0.10.0",
+    "sphinx_design",
+    "sphinx-autodoc-typehints",
+    "sphinx-automodapi",
+    "sphinx-copybutton",
+    "myst-parser",
+    "markdown-it-py[linkify]",
+    "sphinxcontrib-mermaid",
+]
 dynamic = ["version"]
 
 [project.optional-dependencies]
