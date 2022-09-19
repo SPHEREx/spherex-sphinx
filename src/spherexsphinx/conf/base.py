@@ -10,10 +10,12 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Dict, List
 
+from ._utils import get_asset_path
+
 # Core Sphinx configurations =================================================
 
 # General information about the project.
-project = "spherex-sphinx"
+project = "SPHEREx Sphinx"
 copyright = "2022 California Institute of Technology"
 author = "SPHEREx"
 
@@ -71,7 +73,11 @@ html_context: Dict[str, Any] = {
 
 # Optional for the PyData Sphinx Theme
 html_theme_options = {
-    "logo": {"text": "SPHEREx Sphinx"},
+    "logo": {
+        "text": project,
+        "image_light": "spherex-logo-color-light.png",
+        "image_dark": "spherex-logo-color-dark.png",
+    },
     "use_edit_page_button": True,
     "pygment_light_style": "tango",
     "pygment_dark_style": "github-dark",
@@ -92,6 +98,12 @@ html_baseurl = "https://spherex-docs.ipac.caltech.edu/spherex-sphinx/"
 # Redundant when linking to GitHub
 html_show_sourcelink = False
 html_copy_source = False
+
+# Assets available to the HTML theme from spherexsphinx's "assets" directory
+html_static_path = [
+    get_asset_path("spherex-logo-color-light.png"),
+    get_asset_path("spherex-logo-color-dark.png"),
+]
 
 # Intersphinx ================================================================
 # https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
