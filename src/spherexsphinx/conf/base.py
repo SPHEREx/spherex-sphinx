@@ -89,6 +89,13 @@ html_theme_options = {
             "type": "fontawesome",
         }
     ],
+    "favicons": [
+        {
+            "rel": "icon",
+            "sizes": "64x64",
+            "href": "spherex-favicon.png",
+        }
+    ],
 }
 
 html_title = project
@@ -103,6 +110,7 @@ html_copy_source = False
 html_static_path = [
     get_asset_path("spherex-logo-color-light.png"),
     get_asset_path("spherex-logo-color-dark.png"),
+    get_asset_path("spherex-favicon.png"),
 ]
 
 # Intersphinx ================================================================
