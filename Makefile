@@ -8,3 +8,4 @@ init:
 .PHONY: clean
 clean:
 	rm -rf .tox
+	rm -rf docs/api/*.rst
