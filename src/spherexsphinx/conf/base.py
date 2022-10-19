@@ -8,15 +8,17 @@ Use these configurations from your project's Sphinx conf.py file::
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional, Tuple
 
-from ._utils import get_asset_path
+from ._utils import SpherexConfig, get_asset_path
+
+c = SpherexConfig.load()
 
 # Core Sphinx configurations =================================================
 
 # General information about the project.
-project = "SPHEREx Sphinx"
-copyright = "2022 California Institute of Technology"
+project = c.config.project.title
+copyright = c.config.project.copyright
 author = "SPHEREx"
 
 version = "latest"
@@ -34,7 +36,9 @@ root_doc = "index"
 
 exclude_patterns = ["_build", "README.rst", "_rst_epilog.rst"]
 
-rst_epilog = Path("_rst_epilog.rst").read_text()
+epilog_path = Path("_rst_epilog.rst")
+if epilog_path.is_file():
+    rst_epilog = epilog_path.read_text()
 
 pygments_style = "sphinx"
 
@@ -57,6 +61,7 @@ extensions = [
     "sphinx_automodapi.smart_resolver",
     "sphinxcontrib.mermaid",
 ]
+c.extend_sphinx_extensions(extensions)
 
 # HTML =======================================================================
 # Uses https://pydata-sphinx-theme.readthedocs.io/en/stable/
@@ -72,7 +77,7 @@ html_context: Dict[str, Any] = {
 }
 
 # Optional for the PyData Sphinx Theme
-html_theme_options = {
+html_theme_options: Dict[str, Any] = {
     "logo": {
         "text": project,
         "image_light": "spherex-logo-color-light.png",
@@ -81,14 +86,7 @@ html_theme_options = {
     "use_edit_page_button": True,
     "pygment_light_style": "tango",
     "pygment_dark_style": "github-dark",
-    "icon_links": [
-        {
-            "name": "GitHub",
-            "url": "https://github.com/SPHEREx/spherex-sphinx",
-            "icon": "fab fa-github-square",
-            "type": "fontawesome",
-        }
-    ],
+    "icon_links": [],
     "favicons": [
         {
             "rel": "icon",
@@ -98,9 +96,20 @@ html_theme_options = {
     ],
 }
 
+if c.github_url:
+    html_theme_options["icon_links"].append(
+        {
+            "name": "GitHub",
+            "url": c.github_url,
+            "icon": "fab fa-github-square",
+            "type": "fontawesome",
+        }
+    )
+
 html_title = project
 html_short_title = project
-html_baseurl = "https://spherex-docs.ipac.caltech.edu/spherex-sphinx/"
+if c.base_url:
+    html_baseurl = c.base_url
 
 # Redundant when linking to GitHub
 html_show_sourcelink = False
@@ -116,10 +125,8 @@ html_static_path = [
 # Intersphinx ================================================================
 # https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
 
-intersphinx_mapping = {
-    "python": ("https://docs.python.org/3", None),
-    "sphinx": ("https://www.sphinx-doc.org/en/master/", None),
-}
+intersphinx_mapping: Dict[str, Tuple[str, Optional[str]]] = {}
+c.apply_intersphinx_mapping(intersphinx_mapping)
 
 intersphinx_timeout = 10.0  # seconds
 

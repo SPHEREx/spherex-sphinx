@@ -31,6 +31,8 @@ dependencies = [
     "myst-parser",
     "markdown-it-py[linkify]",
     "sphinxcontrib-mermaid",
+    "tomli; python_version < \"3.11\"",
+    "pydantic",
 ]
 dynamic = ["version"]
 
