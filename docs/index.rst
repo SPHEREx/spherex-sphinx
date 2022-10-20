@@ -10,6 +10,8 @@ Install spherex-sphinx with ``pip``:
 
    pip install git+https://github.com/SPHEREX/spherex-sphinx.git@main
 
+:doc:`Learn how to set up a Sphinx project with these configurations in the User guide. <user-guide/getting-started>`
+
 In your documentation project's :file:`conf.py` Sphinx configuration file, apply the base configuration:
 
 .. code-block:: py
@@ -22,11 +24,6 @@ spherex-sphinx is developed on GitHub at https://github.com/SPHEREx/spherex-sphi
 .. toctree::
    :hidden:
 
+   user-guide/index
    changelog
-
-Contribution guide
-==================
-
-.. toctree::
-
    dev/index
