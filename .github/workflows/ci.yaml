@@ -1,0 +1,66 @@
+name: Python CI
+
+"on":
+  push: {}
+  pull_request: {}
+
+jobs:
+  lint:
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.0
+
+  test:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python:
+          - "3.10"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run tox
+        uses: lsst-sqre/run-tox@v1
+        with:
+          python-version: ${{ matrix.python }}
+          tox-envs: "py,typing"
+
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # full history for setuptools_scm
+
+      - name: Install Graphviz
+        run: sudo apt-get install graphviz
+
+      - name: Run tox
+        uses: lsst-sqre/run-tox@v1
+        with:
+          python-version: "3.10"
+          tox-envs: "docs"
+
+      - name: Install LTD Conveyor
+        run: pip install "ltd-conveyor==0.9.0a2"
+
+      - name: Upload documentation
+        if: github.event_name == 'push'
+        env:
+          LTD_PASSWORD: ${{ secrets.docs_api_password }}
+          LTD_USERNAME: spherex-upload
+        run: |
+          ltd --host https://docs-api.ipac.caltech.edu upload --org spherex --project spherex-sphinx --gh --dir docs/_build/html
