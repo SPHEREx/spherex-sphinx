@@ -42,6 +42,7 @@ dev = [
     "mypy",
     "beautifulsoup4",
     "lxml",
+    "types-docutils",
 ]
 
 [project.urls]

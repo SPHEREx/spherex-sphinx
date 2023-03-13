@@ -60,6 +60,7 @@ extensions = [
     "sphinx_automodapi.automodapi",
     "sphinx_automodapi.smart_resolver",
     "sphinxcontrib.mermaid",
+    "spherexsphinx.ext.crossref",
 ]
 c.extend_sphinx_extensions(extensions)
 
