@@ -40,6 +40,8 @@ dev = [
     "pytest",
     "pre-commit",
     "mypy",
+    "beautifulsoup4",
+    "lxml",
 ]
 
 [project.urls]
