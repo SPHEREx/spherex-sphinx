@@ -10,3 +10,10 @@ User guide
    getting-started
    spherex-toml
    base-config
+
+.. toctree::
+   :maxdepth: 2
+   :titlesonly:
+   :caption: Extensions
+
+   crossref
