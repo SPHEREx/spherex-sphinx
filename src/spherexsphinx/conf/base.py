@@ -48,6 +48,7 @@ default_role = "py:obj"
 # Extensions =================================================================
 
 extensions = [
+    "sphinxcontrib.jquery",
     "myst_parser",
     "sphinx_design",
     "sphinx_copybutton",
