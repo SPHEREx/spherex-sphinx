@@ -19,6 +19,7 @@ else:
 __all__ = [
     "get_asset_path",
     "SpherexConfig",
+    "ConfigRoot",
 ]
 
 
@@ -33,7 +34,7 @@ def get_asset_path(name: str) -> str:
 
     Returns
     -------
-    path
+    pathlib.Path
         Path to the asset file.
     """
     path = Path(__file__).parent.joinpath("../assets", name)
@@ -152,7 +153,7 @@ class SpherexConfig:
             Base intersphinx mapping configuration to extend.
         """
         for project, url in self.config.sphinx.intersphinx.projects.items():
-            intersphinx_mapping[project] = (url, None)
+            intersphinx_mapping[project] = (str(url), None)
 
     def extend_sphinx_extensions(self, extensions: List[str]) -> None:
         """Append additional sphinx extensions from sphinx.extensions to
@@ -177,7 +178,7 @@ class SpherexConfig:
             raise ConfigError("Cannot find the spherex.toml file.")
         toml_content = path.read_text()
         try:
-            config = ConfigRoot.parse_obj(tomllib.loads(toml_content))
+            config = ConfigRoot.model_validate(tomllib.loads(toml_content))
         except ValidationError as e:
             message = (
                 f"Syntax or validation issue in spherex.toml:\n\n" f"{str(e)}"
