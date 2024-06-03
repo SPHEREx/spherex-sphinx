@@ -44,6 +44,7 @@ dev = [
     "beautifulsoup4",
     "lxml",
     "types-docutils",
+    "defusedxml", # Required by Sphinx testing module
 ]
 
 [project.urls]
