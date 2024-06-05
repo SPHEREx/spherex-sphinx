@@ -14,21 +14,6 @@ The following are some common patterns.
 
 .. tab-set::
 
-   .. tab-item:: pip
-
-      You can directly install spherex-sphinx into your Python environment:
-
-      .. code-block:: sh
-
-         pip install git+https://github.com/SPHEREX/spherex-sphinx.git@main
-
-   .. tab-item:: requirements.txt
-
-      .. code-block:: text
-         :caption: requirements.txt
-
-         git+https://github.com/SPHEREX/spherex-sphinx.git@main
-
    .. tab-item:: pyproject.toml
 
       Often in a Python package, development and documentation-only dependencies are installed via an "extra" rather than in the main dependencies list:
@@ -37,9 +22,27 @@ The following are some common patterns.
          :caption: pyproject.toml
 
          [project.optional-dependencies]
-         dev = [
+         docs = [
              "spherex-sphinx @ git+https://github.com/SPHEREX/spherex-sphinx.git@main"
          ]
+
+   .. tab-item:: requirements.txt
+
+      If using a pip requirements file, you can specify the spherex-sphinx dependency like this:
+
+      .. code-block:: text
+         :caption: requirements.txt
+
+         git+https://github.com/SPHEREX/spherex-sphinx.git@main
+
+   .. tab-item:: pip
+
+      You can directly install spherex-sphinx into your Python environment:
+
+      .. code-block:: sh
+
+         pip install git+https://github.com/SPHEREX/spherex-sphinx.git@main
+
 
 Add a Sphinx configuration file, conf.py
 ========================================
@@ -49,7 +52,7 @@ spherex-sphinx provides a base module, :doc:`spherexsphinx.conf.base <base-confi
 At the base of your documentation project (which might be the ``docs`` directory for a software documentation project, or the Git repository's root directory for a standalone documentation site), add this ``conf.py`` file:
 
 .. code-block:: py
-   :caption: conf.py
+   :caption: docs/conf.py
 
    """The Sphinx configuration is derived from spherexsphinx.conf.base
    and can be extended by setting additional variables after the import.
@@ -71,7 +74,7 @@ This is a `TOML <https://toml.io/en/>`__\ -formatted file.
 Add and customize this ``spherex.toml`` file:
 
 .. code-block:: toml
-   :caption: spherex.toml
+   :caption: docs/spherex.toml
 
    [project]
    title = "SPHEREx Sphinx"
@@ -92,11 +95,11 @@ Add a substitutions and links file, _rst_epilog.rst
 ===================================================
 
 This is an optional file that you can add in the same directory as both ``spherex.toml`` and ``conf.py``.
-It's contents are automatically added to each reStructuredText source file and is a great place to put common link definitions and substitutions for your documentation project.
+Its contents are automatically added to each reStructuredText source file and is a great place to put common link definitions and substitutions for your documentation project.
 An example:
 
 .. code-block:: rst
-   :caption: _rst_epilog.rst
+   :caption: docs/_rst_epilog.rst
 
    .. _SPHEREx: https://spherex.caltech.edu
 
@@ -109,3 +112,83 @@ With it, you can type ``SPHEREx_`` in your reStructuredText documentation to cre
 
 The last three items use reStructuredText's substitutions syntax.
 You can type ``|done|`` in your documentation, and it expands into the content after the ``replace::``, i.e., :bdg-success:`Done`.
+
+Add a Makefile for the documentation
+====================================
+
+Its convenient to use a Makefile for common documentation tasks.
+Use this as a starting point:
+
+.. code-block:: makefile
+   :caption: docs/Makefile
+
+   .PHONY: html
+   html:
+   	sphinx-build --keep-going -n -T -b html -d _build/doctrees . _build/html
+
+   .PHONY: clean
+   clean:
+   	rm -rf api
+   	rm -rf _build
+
+Register the documentation project
+==================================
+
+To deploy the documentation project to the SPHEREx documentation site, you need to register it though the IPAC docs API (also known as LTD or *LSST the Docs*).
+To do this, you need the admin account credentials.
+With those, get a token from the API:
+
+.. code-block:: sh
+
+   curl -u 'admin:$PASSWORD' https://docs-api.ipac.caltech.edu/token
+
+Use the content of the ``token`` response field as the username with blank password to authenticate with the API.
+To register the documentation, customize the following API request:
+
+.. code-block:: sh
+
+   curl -u '$TOKEN:' -X POST --json '{
+       "slug": "spherex-sphinx",
+       "title": "SPHEREx Sphinx",
+       "source_repo_url": "https://github.com/SPHEREx/spherex-sphinx",
+      }' https://docs-api.ipac.caltech.edu/v2/org/spherex/projects
+
+Build and upload the documentation in GitHub Actions CI
+=======================================================
+
+Use a GitHub Actions workflow to build and upload documentation as part of your project's CI and release processes.
+When uploading through GitHub Actions, the ``ltd`` CLI tool automatically knows the branch or tag associated with the documentation build.
+
+To introspect your project to build an API reference, Sphinx builds documentation in the same Python environment as the installed project.
+Therefore you can either add the documentation build to the same GitHub Actions workflow job that tests the project, or replicate the setup steps from the testing job into a separate documentation job.
+When your software is installed, ensure that it's installed with the ``[docs]`` extra to include the documentation dependencies.
+
+These workflow steps are an example of how to build and upload documentation in GitHub Actions, assuming that the project is already checked out and installed:
+
+.. code-block:: yaml
+   :caption: .github/workflows/docs.yaml
+
+   # For rendering class inheritance diagrams
+   - name: Install graphviz
+     run: |
+       sudo apt-get install graphviz
+
+   - name: Build documentation
+     run: |
+       cd docs
+       make html
+
+   - name: Install LTD Conveyor
+     run: |
+       python -m pip install ltd-conveyor==0.9.0a2
+
+   - name: Upload documentation
+     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+     env:
+       LTD_PASSWORD: ${{ secrets.SPHEREX_DOCS_API_PASSWORD }}
+       LTD_USERNAME: spherex-upload
+       DOCNAME: example # UPDATE to match the registered "slug"
+     run: |
+       ltd --host https://docs-api.ipac.caltech.edu upload \
+         --org spherex --project ${{ env.DOCNAME }} --gh \
+         --dir docs/_build/html
