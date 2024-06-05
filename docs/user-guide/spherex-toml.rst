@@ -69,6 +69,38 @@ A list of `Sphinx extensions <https://www.sphinx-doc.org/en/master/usage/extensi
 Note that you will need to include additional extension packages in your project's Python dependencies.
 You may also need to configure the additional extensions in your project's :file:`conf.py` file.
 
+.. _toml-sphinx-nitpick_ignore:
+
+sphinx.nitpick_ignore
+---------------------
+
+A list of Sphinx warnings to suppress. Each item is a two-item list, where the first item is the role/domain type and the second item is the target, such as the Python API.
+For more information, see the `Sphinx documentation <https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-nitpick_ignore>`__.
+
+.. code-block:: toml
+   :caption: spherex.toml
+
+   [sphinx]
+   nitpick_ignore = [
+       ["py:class", "BaseModel"]
+   ]
+
+sphinx.nitpick_ignore_regex
+---------------------------
+
+A list of Sphinx warnings to suppress, using regular expressions to match both the type and target of the warning (see :ref:`toml-sphinx-nitpick-ignore`). For more information, see the `Sphinx documentation <https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-nitpick_ignore_regex>`__.
+
+.. code-block:: toml
+   :caption: spherex.toml
+
+   [sphinx]
+   nitpick_ignore_regex = [
+       ['py:.*', 'pydantic.*']
+   ]
+
+Note that TOML strings with single backticks are treated as literal strings (with no automatic escaping).
+This is useful for regular expressions, where backslashes are common.
+
 [sphinx.intersphinx.projects]
 =============================
 

@@ -2,6 +2,5 @@
 title = "SPHEREx Sphinx"
 copyright = "2022 California Institute of Technology"
 base_url = "https://spherex-docs.ipac.caltech.edu/spherex-sphinx/"
-github_url = "https://github.com/SPHEREx/spherex-sphinx"
 
 [sphinx.intersphinx]

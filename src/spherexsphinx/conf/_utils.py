@@ -64,7 +64,7 @@ class ProjectModel(BaseModel):
     )
 
     base_url: Optional[HttpUrl] = Field(
-        description="Canonical URL of the site's root page."
+        None, description="Canonical URL of the site's root page."
     )
 
     copyright: str = Field(
@@ -75,7 +75,7 @@ class ProjectModel(BaseModel):
     )
 
     github_url: Optional[HttpUrl] = Field(
-        description="The URL of the project's GitHub repository."
+        None, description="The URL of the project's GitHub repository."
     )
 
     github_default_branch: str = Field(
@@ -107,6 +107,23 @@ class SphinxModel(BaseModel):
     extensions: List[str] = Field(
         description=(
             "Additional Sphinx extensions to use, beyond the base set."
+        ),
+        default_factory=list,
+    )
+
+    nitpick_ignore: List[Tuple[str, str]] = Field(
+        description=(
+            "Errors to ignore. First item is the type (like a role or "
+            "directive) and the second is the target (like the argument to "
+            "the role)."
+        ),
+        default_factory=list,
+    )
+
+    nitpick_ignore_regex: List[Tuple[str, str]] = Field(
+        description=(
+            "Same as ``nitpick_ignore``, but both type and target are "
+            "interpreted as regular expressions."
         ),
         default_factory=list,
     )
@@ -176,7 +193,8 @@ class SpherexConfig:
     ) -> None:
         """Configures the Edit on GitHub functionality, if possible."""
         if self.github_url is None:
-            raise ConfigError("project.github_url is not set.")
+            html_theme_options["use_edit_page_button"] = False
+            return
 
         parsed_url = urlparse(self.github_url)
         path_parts = parsed_url.path.split("/")
