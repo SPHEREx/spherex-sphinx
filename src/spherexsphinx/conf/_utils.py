@@ -64,7 +64,7 @@ class ProjectModel(BaseModel):
     )
 
     base_url: Optional[HttpUrl] = Field(
-        description="Canonical URL of the site's root page."
+        None, description="Canonical URL of the site's root page."
     )
 
     copyright: str = Field(
@@ -75,7 +75,7 @@ class ProjectModel(BaseModel):
     )
 
     github_url: Optional[HttpUrl] = Field(
-        description="The URL of the project's GitHub repository."
+        None, description="The URL of the project's GitHub repository."
     )
 
     github_default_branch: str = Field(
@@ -176,7 +176,8 @@ class SpherexConfig:
     ) -> None:
         """Configures the Edit on GitHub functionality, if possible."""
         if self.github_url is None:
-            raise ConfigError("project.github_url is not set.")
+            html_theme_options["use_edit_page_button"] = False
+            return
 
         parsed_url = urlparse(self.github_url)
         path_parts = parsed_url.path.split("/")
