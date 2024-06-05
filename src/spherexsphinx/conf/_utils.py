@@ -111,6 +111,23 @@ class SphinxModel(BaseModel):
         default_factory=list,
     )
 
+    nitpick_ignore: List[Tuple[str, str]] = Field(
+        description=(
+            "Errors to ignore. First item is the type (like a role or "
+            "directive) and the second is the target (like the argument to "
+            "the role)."
+        ),
+        default_factory=list,
+    )
+
+    nitpick_ignore_regex: List[Tuple[str, str]] = Field(
+        description=(
+            "Same as ``nitpick_ignore``, but both type and target are "
+            "interpreted as regular expressions."
+        ),
+        default_factory=list,
+    )
+
 
 class ConfigRoot(BaseModel):
     """Root of the spherex.toml configuration file."""

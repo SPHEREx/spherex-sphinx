@@ -45,6 +45,21 @@ pygments_style = "sphinx"
 # The reST default role cross-links Python (used for this markup: `text`)
 default_role = "py:obj"
 
+# Ignore unavoidable Sphinx warnings.
+# Pydantic cross links aren't possible, so ignore them.
+nitpick_ignore_regex = [
+    ("py:.*", "pydantic.*"),
+]
+nitpick_ignore_regex.extend(c.config.sphinx.nitpick_ignore_regex)
+
+nitpick_ignore = [
+    ("py:class", "unittest.mock.Base"),
+    ("py:class", "unittest.mock.CallableMixin"),
+    ("py:class", "pydantic.BaseModel"),
+    ("py:class", "BaseModel"),
+]
+nitpick_ignore.extend(c.config.sphinx.nitpick_ignore)
+
 # Extensions =================================================================
 
 extensions = [
