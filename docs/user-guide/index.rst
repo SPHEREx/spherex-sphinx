@@ -14,6 +14,13 @@ User guide
 .. toctree::
    :maxdepth: 2
    :titlesonly:
+   :caption: Writing
+
+   writing-for-sphinx
+
+.. toctree::
+   :maxdepth: 2
+   :titlesonly:
    :caption: Extensions
 
    crossref
