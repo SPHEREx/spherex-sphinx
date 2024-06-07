@@ -18,6 +18,7 @@ User guide
 
    writing-for-sphinx
    writing-docstrings
+   creating-an-api-reference
 
 .. toctree::
    :maxdepth: 2

@@ -165,6 +165,8 @@ To register the documentation, customize the following API request:
        "source_repo_url": "https://github.com/SPHEREx/spherex-sphinx",
       }' https://docs-api.ipac.caltech.edu/v2/org/spherex/projects
 
+.. _getting-started-gh-actions:
+
 Build and upload the documentation in GitHub Actions CI
 =======================================================
 
