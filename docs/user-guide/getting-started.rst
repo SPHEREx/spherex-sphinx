@@ -131,6 +131,18 @@ Use this as a starting point:
    	rm -rf api
    	rm -rf _build
 
+Add a .gitignore file for the documentation build products
+==========================================================
+
+Typical Sphinx projects have two output directories that should be ignored by version control: ``_build`` (where the built HTML is created) and ``api`` (created automatically by `sphinx-automodapi`_).
+This is a typical ``.gitignore`` file that can be added to the ``docs`` directory (or the root of the Sphinx project, generally):
+
+.. code-block:: text
+   :caption: docs/.gitignore
+
+   _build/
+   api/
+
 Register the documentation project
 ==================================
 
