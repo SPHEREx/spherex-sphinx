@@ -17,6 +17,7 @@ User guide
    :caption: Writing
 
    writing-for-sphinx
+   writing-docstrings
 
 .. toctree::
    :maxdepth: 2
