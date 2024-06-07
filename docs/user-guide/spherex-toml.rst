@@ -69,7 +69,7 @@ A list of `Sphinx extensions <https://www.sphinx-doc.org/en/master/usage/extensi
 Note that you will need to include additional extension packages in your project's Python dependencies.
 You may also need to configure the additional extensions in your project's :file:`conf.py` file.
 
-.. _toml-sphinx-nitpick_ignore:
+.. _toml-sphinx-nitpick-ignore:
 
 sphinx.nitpick_ignore
 ---------------------
