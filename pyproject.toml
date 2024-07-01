@@ -27,6 +27,7 @@ dependencies = [
     "sphinx-copybutton",
     "sphinxcontrib-jquery",
     "myst-parser",
+    "sphinx-click",
     "markdown-it-py[linkify]",
     "sphinxcontrib-mermaid",
     "tomli; python_version < \"3.11\"",
