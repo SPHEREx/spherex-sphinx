@@ -14,8 +14,6 @@ from ._utils import SpherexConfig, get_asset_path
 
 c = SpherexConfig.load()
 
-# Core Sphinx configurations =================================================
-
 # General information about the project.
 project = c.config.project.title
 copyright = c.config.project.copyright
@@ -73,10 +71,9 @@ extensions = [
     "sphinx_autodoc_typehints",
     "sphinx_automodapi.automodapi",
     "sphinx_automodapi.smart_resolver",
-    "sphinx_automodapi.automodapi",
-    "sphinx_automodapi.smart_resolver",
     "sphinxcontrib.mermaid",
     "spherexsphinx.ext.crossref",
+    "sphinx_click",
 ]
 c.extend_sphinx_extensions(extensions)
 
@@ -202,5 +199,5 @@ myst_enable_extensions = [
 # https://github.com/mgaitan/sphinxcontrib-mermaid
 # https://mermaid-js.github.io/mermaid/#/
 
-# Render in browser with "raw" foramt
+# Render in browser with "raw" format
 mermaid_output_format = "raw"
