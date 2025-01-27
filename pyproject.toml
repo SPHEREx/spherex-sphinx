@@ -48,6 +48,9 @@ dev = [
     "types-docutils",
     "defusedxml", # Required by Sphinx testing module
 ]
+technote = [
+    "technote>=0.9.0,<0.10.0",
+]
 
 [project.urls]
 # Homepage = "https://spherex-docs.caltech.ipac.edu/spherex-sphinx/"
