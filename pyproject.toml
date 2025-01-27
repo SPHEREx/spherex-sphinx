@@ -25,6 +25,7 @@ dependencies = [
     "sphinx-autodoc-typehints",
     "sphinx-automodapi",
     "sphinx-copybutton",
+    "sphinx-prompt",
     "sphinxcontrib-jquery",
     "myst-parser",
     "sphinx-click",

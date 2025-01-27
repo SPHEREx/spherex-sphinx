@@ -4,6 +4,14 @@ from pathlib import Path
 
 from technote.sphinxconf import *  # noqa: F401 F403
 
+extensions.extend(  # noqa: F405
+    [
+        "sphinxcontrib.mermaid",
+        "sphinx_prompt",
+        "sphinx_design",
+    ]
+)
+
 _assets_dir = Path(__file__).parent.joinpath("../assets")
 
 html_static_path: list[str] = [
