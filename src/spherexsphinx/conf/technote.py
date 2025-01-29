@@ -10,8 +10,14 @@ with suppress(ValueError):
     # in the proper order relative to documenteer.ext.githubbibcache.
     extensions.remove("sphinxcontrib.bibtex")  # noqa: F405
 
+with suppress(ValueError):
+    # Remove myst-parser if added by technote.sphinxconf so we can
+    # add myst-nb.
+    extensions.remove("myst_parser")  # noqa: F405
+
 extensions.extend(  # noqa: F405
     [
+        "myst_nb",
         "sphinxcontrib.mermaid",
         "sphinx_prompt",
         "sphinx_design",
@@ -41,6 +47,12 @@ html_theme_options = {
     "dark_logo": "spherex-logo-color-dark.png",
     "logo_link_url": "https://spherex-docs.ipac.caltech.edu",
     "logo_alt_text": "SPHEREx",
+}
+
+# The source file suffixes for .md and .ipynb are automatically managed by
+# myst-nb.
+source_suffix = {
+    ".rst": "restructuredtext",
 }
 
 # Configure bibliography with the bib cache

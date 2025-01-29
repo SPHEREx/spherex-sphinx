@@ -27,6 +27,7 @@ dependencies = [
     "sphinx-copybutton",
     "sphinx-prompt",
     "sphinxcontrib-jquery",
+    "myst-nb",
     "myst-parser",
     "sphinx-click",
     "markdown-it-py[linkify]",
