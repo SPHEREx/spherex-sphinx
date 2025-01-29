@@ -27,6 +27,11 @@ html_static_path: list[str] = [
     str(_assets_dir.joinpath("spherex-logo-color-light.png").resolve()),
 ]
 
+# A list of paths that contain extra templates (or templates that overwrite
+# builtin/theme-specific templates).
+_templates_dir = Path(__file__).parent.joinpath("../templates/technote")
+templates_path = [str(_templates_dir.resolve())]
+
 # Configurations for the technote theme.
 html_theme_options = {
     "light_logo": "spherex-logo-color-light.png",
@@ -51,3 +56,11 @@ documenteer_bibfile_github_repos = [
 bibtex_bibfiles = [str(p) for p in Path.cwd().glob("*.bib")]
 
 bibtex_reference_style = "author_year"
+
+# Add editions_url to the HTML context so it can be used by the custom
+# sidebar template
+_id = T.metadata.id  # noqa: F405
+if _id is not None:
+    html_context["editions_url"] = (  # noqa: F405
+        f"https://spherex-docs.ipac.caltech.edu/{_id.lower()}/v/"
+    )
