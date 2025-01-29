@@ -1,0 +1,8 @@
+/*
+ * Custom styles for SPHEREx technical notes. See the Technote repo at
+ * https://github.com/lsst-sqre/technote for base styles.
+ */
+
+.technote-logo-container {
+  max-width: 250px;
+}

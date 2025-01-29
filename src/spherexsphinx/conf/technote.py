@@ -25,7 +25,10 @@ _assets_dir = Path(__file__).parent.joinpath("../assets")
 html_static_path: list[str] = [
     str(_assets_dir.joinpath("spherex-logo-color-dark.png").resolve()),
     str(_assets_dir.joinpath("spherex-logo-color-light.png").resolve()),
+    str(_assets_dir.joinpath("spherex-technote.css").resolve()),
 ]
+
+html_css_files = ["spherex-technote.css"]
 
 # A list of paths that contain extra templates (or templates that overwrite
 # builtin/theme-specific templates).
