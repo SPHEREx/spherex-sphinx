@@ -24,7 +24,8 @@ def test_example_page_rendering(app: Sphinx, status: IO, warning: IO) -> None:
 
     # Simple link
     simple_section = soup.find(id="simple")
-    simple_link = simple_section.select("a.external")[0]
+    assert simple_section is not None
+    simple_link = simple_section.select("a.external")[0]  # type: ignore
     assert (
         simple_link["href"]
         == "https://spherex-docs.ipac.caltech.edu/ssdc-ms-001"
@@ -33,7 +34,8 @@ def test_example_page_rendering(app: Sphinx, status: IO, warning: IO) -> None:
 
     # Custom display
     custom_section = soup.find(id="custom-display")
-    custom_link = custom_section.select("a.external")[0]
+    assert custom_section is not None
+    custom_link = custom_section.select("a.external")[0]  # type: ignore
     assert (
         custom_link["href"]
         == "https://spherex-docs.ipac.caltech.edu/ssdc-ms-002"
