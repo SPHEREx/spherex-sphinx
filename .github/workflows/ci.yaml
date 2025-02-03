@@ -6,30 +6,30 @@ name: Python CI
 
 jobs:
   lint:
-
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
 
       - name: Run pre-commit
-        uses: pre-commit/action@v3.0.0
+        uses: pre-commit/action@v3.0.1
 
   test:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         python:
-          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Run tox
         uses: lsst-sqre/run-tox@v1
@@ -37,11 +37,50 @@ jobs:
           python-version: ${{ matrix.python }}
           tox-envs: "py,typing"
 
+  demo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history for setuptools_scm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Graphviz
+        run: sudo apt-get install graphviz
+
+      - name: Run tox
+        uses: lsst-sqre/run-tox@v1
+        with:
+          python-version: "3.12"
+          tox-envs: "demo"
+
+      - name: Upload MD technote demo artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: markdown-technote
+          path: demo/md-technote/_build/html
+
+      - name: Upload rst technote demo artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rst-technote
+          path: demo/rst-technote/_build/html
+
+      - name: Upload ipynb technote demo artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ipynb-technote
+          path: demo/ipynb-technote/_build/html
+
   docs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # full history for setuptools_scm
 
@@ -51,7 +90,7 @@ jobs:
       - name: Run tox
         uses: lsst-sqre/run-tox@v1
         with:
-          python-version: "3.10"
+          python-version: "3.12"
           tox-envs: "docs"
 
       - name: Install LTD Conveyor

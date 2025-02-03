@@ -1,7 +1,7 @@
 .PHONY: init
 init:
 	pip install --upgrade pip tox pre-commit
-	pip install --upgrade -e ".[dev]"
+	pip install --upgrade -e ".[technote,dev]"
 	pre-commit install
 	rm -rf .tox
 

@@ -19,13 +19,15 @@ classifiers = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "Sphinx>=5",
+    "Sphinx>=5,<9",
     "pydata-sphinx-theme>=0.10.0,<0.13.0",
     "sphinx_design",
     "sphinx-autodoc-typehints",
     "sphinx-automodapi",
     "sphinx-copybutton",
+    "sphinx-prompt",
     "sphinxcontrib-jquery",
+    "myst-nb",
     "myst-parser",
     "sphinx-click",
     "markdown-it-py[linkify]",
@@ -47,6 +49,11 @@ dev = [
     "lxml",
     "types-docutils",
     "defusedxml", # Required by Sphinx testing module
+]
+technote = [
+    "technote>=0.9.0,<0.10.0",
+    "documenteer>1.0.0,<2.0.0",
+    "sphinxcontrib-bibtex>=2.0.0",
 ]
 
 [project.urls]

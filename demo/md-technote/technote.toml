@@ -1,0 +1,14 @@
+[technote]
+id = "TEST-000"
+series_id = "TEST"
+canonical_url = "https://test-000.example.org"
+github_url = "https://github.com/SPHEREx/test-000"
+date_created = 2025-01-01
+
+[[technote.authors]]
+name.given = "Jonathan"
+name.family = "Sick"
+orcid = "https://orcid.org/0000-0003-3001-676X"
+affiliations = [
+    { name = "J.Sick Codes Inc." }
+]

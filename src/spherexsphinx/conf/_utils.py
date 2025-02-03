@@ -221,9 +221,9 @@ class SpherexConfig:
         html_theme_options["use_edit_page_button"] = True
         html_context["github_user"] = github_owner
         html_context["github_repo"] = github_repo
-        html_context[
-            "github_version"
-        ] = self.config.project.github_default_branch
+        html_context["github_version"] = (
+            self.config.project.github_default_branch
+        )
         html_context["doc_path"] = doc_dir
 
     @classmethod
@@ -241,7 +241,7 @@ class SpherexConfig:
             config = ConfigRoot.model_validate(tomllib.loads(toml_content))
         except ValidationError as e:
             message = (
-                f"Syntax or validation issue in spherex.toml:\n\n" f"{str(e)}"
+                f"Syntax or validation issue in spherex.toml:\n\n {str(e)}"
             )
             raise ConfigError(message)
         return cls(config=config)
